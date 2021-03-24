@@ -1,0 +1,162 @@
+#!/usr/bin/env pybricks-micropython
+
+from random import seed
+from random import randint
+from pybricks import ev3brick as brick
+from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
+                                 InfraredSensor, UltrasonicSensor, GyroSensor)
+from pybricks.parameters import (Port, Stop, Direction, Button, Color,
+                                 SoundFile, ImageFile, Align)
+from pybricks.tools import print, wait, StopWatch
+from pybricks.robotics import DriveBase
+from pybricks.tools import wait
+
+angle = 1
+
+small_motor = Motor(Port.A)
+
+left_motor = Motor(Port.B)
+right_motor = Motor(Port.C)
+
+obstacle_sensor = UltrasonicSensor(Port.S4)
+
+color_sensor1 = ColorSensor(Port.S1)
+color_sensor2 = ColorSensor(Port.S2)
+color_sensor3 = ColorSensor(Port.S3)
+
+robot = DriveBase(left_motor, right_motor, wheel_diameter = 55, axle_track = 135)
+
+while True:
+    
+    color1 = color_sensor1.color()
+    color2 = color_sensor2.color()
+    color3 = color_sensor3.color()
+
+    if color1 == Color.WHITE and color2 == Color.BLACK and color3 == Color.WHITE or color1 == Color.WHITE and color2 == Color.BLUE and color3 == Color.WHITE:
+        print("going forward")
+        robot.drive(125,0)
+        brick.light(Color.BROWN)
+
+     
+    elif color1 == Color.BLACK and color2 == Color.BLACK and color3 == Color.BLACK or color1 == Color.BLACK and color2 == Color.BLACK and color3 == Color.BLACK: 
+        print("doing maze")
+        robot.drive(110,0)
+
+    elif color3 == Color.GREEN:
+        robot.drive_time(100,0,680)
+        if color1 == Color.GREEN and color2 == Color.GREEN and color3 == Color.GREEN or color1 == Color.BLUE and color2 == Color.BLUE and color3 == Color.BLUE or color1 == Color.GREEN and color2 == Color.BLUE and color3 == Color.GREEN or color1 == Color.BLUE and color2 == Color.GREEN and color3 == Color.GREEN or color1 == Color.GREEN and color2 == Color.GREEN and color3 == Color.BLUE or color1 == Color.BLUE and color2 == Color.BLUE and color3 == Color.GREEN or color1 == Color.GREEN and color2 == Color.BLUE and color3 == Color.BLUE: 
+            print("doing white stuff")    
+            color1 = color_sensor1.color()
+            color2 = color_sensor2.color()
+            color3 = color_sensor3.color()            
+            robot.drive_time(200,0,1200)
+            while obstacle_sensor.distance() > 300:
+                color1 = color_sensor1.color()
+                color2 = color_sensor2.color()
+                color3 = color_sensor3.color()
+                robot.turn(10)
+                while angle > 0:
+                    angle = angle + 10
+            robot.turn(-150)
+            wait(100)
+            robot.drive_time(-100,0,900)
+            wait(100)
+            small_motor.run_time(-900,3500)
+            wait(100)
+            robot.drive_time(-100,0,900)
+            robot.stop(stop_type=Stop.HOLD)
+            wait(100)
+            robot.stop(stop_type=Stop.HOLD)
+            small_motor.run_time(900,3500)
+            wait(100)
+            robot.stop(stop_type=Stop.HOLD)
+            robot.drive_time(200,0,900)
+            robot.turn(-angle)
+            robot.drive_time(100,0, 2000)
+            robot.drive(100,0)
+            
+
+        else:
+            robot.turn(77)
+            color1 = color_sensor1.color()
+            color2 = color_sensor2.color()
+            color3 = color_sensor3.color()
+            while color2 != Color.BLACK:
+                color1 = color_sensor1.color()
+                color2 = color_sensor2.color()
+                color3 = color_sensor3.color()    
+                robot.turn(-5)
+            robot.drive(100,0)
+
+    elif color1 == Color.GREEN:
+        robot.drive_time(100,0,680)
+        if color3 == Color.GREEN and color2 == Color.GREEN and color3 == Color.GREEN or color1 == Color.BLUE and color2 == Color.BLUE and color3 == Color.BLUE or color1 == Color.GREEN and color2 == Color.BLUE and color3 == Color.GREEN or color1 == Color.BLUE and color2 == Color.GREEN and color3 == Color.GREEN or color1 == Color.GREEN and color2 == Color.GREEN and color3 == Color.BLUE or color1 == Color.BLUE and color2 == Color.BLUE and color3 == Color.GREEN or color1 == Color.GREEN and color2 == Color.BLUE and color3 == Color.BLUE: 
+            print("doing white stuff")    
+            color1 = color_sensor1.color()
+            color2 = color_sensor2.color()
+            color3 = color_sensor3.color()            
+            robot.drive_time(200,0,1200)
+            while obstacle_sensor.distance() > 300:
+                color1 = color_sensor1.color()
+                color2 = color_sensor2.color()
+                color3 = color_sensor3.color()
+                robot.turn(10)
+                while angle > 0:
+                    angle = angle + 10
+            robot.turn(-150)
+            wait(100)
+            robot.drive_time(-100,0,900)
+            wait(100)
+            small_motor.run_time(-900,3500)
+            wait(100)
+            robot.drive_time(-100,0,900)
+            robot.stop(stop_type=Stop.HOLD)
+            wait(100)
+            robot.stop(stop_type=Stop.HOLD)
+            small_motor.run_time(900,3500)
+            wait(100)
+            robot.stop(stop_type=Stop.HOLD)
+            robot.drive_time(200,0,900)
+            robot.turn(-angle)
+            robot.drive_time(100,0, 2000)
+            robot.drive(100,0)
+            
+
+        else:
+            robot.turn(77)
+            color1 = color_sensor1.color()
+            color2 = color_sensor2.color()
+            color3 = color_sensor3.color()
+            while color2 != Color.BLACK:
+                color1 = color_sensor1.color()
+                color2 = color_sensor2.color()
+                color3 = color_sensor3.color()    
+                robot.turn(-5)
+            robot.drive(100,0)
+i
+    elif color2 == Color.WHITE:
+        if color1 == Color.BLACK or color1 == Color.BLUE:
+            print("turn left") 
+            robot.drive(100, -90)
+
+        elif color3 == Color.BLACK or color3 == Color.BLUE:
+            print("turn right")
+            robot.drive(100, 90)
+    
+    elif obstacle_sensor.distance() < 150:
+        print("obstacle sensor trigegred!!!")
+        robot.turn(60)
+        brick.light(Color.BLACK)
+        color1 = color_sensor1.color()
+        color2 = color_sensor2.color()
+        color3 = color_sensor3.color()
+        while color2 != Color.BLACK:
+            color1 = color_sensor1.color()
+            color2 = color_sensor2.color()
+            color3 = color_sensor3.color()
+            robot.drive(150,-30)
+            #print("here still?")
+        print("exiting")
+        robot.drive_time(100,0,300)
+        robot.turn(30)
+        robot.drive(100,0)
